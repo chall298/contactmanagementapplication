@@ -1,3 +1,5 @@
+import { useReducer } from "react";
+
 const url = "https://assets.breatheco.de/apis/fake/contact/";
 const getState = ({ getStore, setStore }) => {
 	return {
@@ -15,6 +17,29 @@ const getState = ({ getStore, setStore }) => {
 							});
 					})
 					.catch(e => console.error(e));
+			},
+			addContact(name, phone, email, address) {
+				fetch(url, {
+					method: "post",
+					headers: { "Content-type": "application/json" },
+					body: JSON.stringify({
+						full_name: name,
+						phone: phone,
+						address: address,
+						email: email,
+						agenda_slug: "downtown xii"
+					})
+				}).then(() => {
+					fetch(url + "agenda/downtown xii")
+						.then(response => response.json())
+						.then(result => {
+							console.log("result", result),
+								setStore({
+									contacts: result
+								});
+						})
+						.catch(e => console.error(e));
+				});
 			}
 		}
 	};
