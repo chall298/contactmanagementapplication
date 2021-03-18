@@ -4,11 +4,20 @@ import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 
 export const EditContact = props => {
+	// let short = store.contacts[props.match.params.index];
+	// let id = props.match.params.id;
+	// const { store, actions } = useContext(Context);
+	// const [phone, setPhone] = useState(short.phone);
+	// const [name, setName] = useState(short.full_name);
+	// const [email, setEmail] = useState(short.email);
+	// const [address, setAddress] = useState(short.address);
+	let id = props.match.params.id;
 	const { store, actions } = useContext(Context);
-	const [phone, setPhone] = useState("");
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [address, setAddress] = useState("");
+	let contact = store.contacts[props.match.params.index];
+	const [phone, setPhone] = useState(contact ? contact.phone : "");
+	const [name, setName] = useState(contact ? contact.full_name : "");
+	const [email, setEmail] = useState(contact ? contact.email : "");
+	const [address, setAddress] = useState(contact ? contact.address : "");
 
 	console.log("try", store.contacts);
 
@@ -23,6 +32,7 @@ export const EditContact = props => {
 							type="text"
 							className="form-control"
 							placeholder="Full Name"
+							value={name}
 							onChange={e => setName(e.target.value)}
 						/>
 					</div>
@@ -32,6 +42,7 @@ export const EditContact = props => {
 							type="email"
 							className="form-control"
 							placeholder="Enter email"
+							value={email}
 							onChange={e => setEmail(e.target.value)}
 						/>
 					</div>
@@ -41,6 +52,7 @@ export const EditContact = props => {
 							type="phone"
 							className="form-control"
 							placeholder="Enter phone"
+							value={phone}
 							onChange={e => setPhone(e.target.value)}
 						/>
 					</div>
@@ -50,6 +62,7 @@ export const EditContact = props => {
 							type="text"
 							className="form-control"
 							placeholder="Enter address"
+							value={address}
 							onChange={e => setAddress(e.target.value)}
 						/>
 					</div>
@@ -58,7 +71,7 @@ export const EditContact = props => {
 							type="button"
 							className="btn btn-primary form-control"
 							onClick={() => {
-								actions.addContact(name, phone, email, address);
+								actions.editContact(props.match.params.id, name, phone, email, address);
 							}}>
 							save
 						</button>
